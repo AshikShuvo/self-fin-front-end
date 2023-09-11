@@ -1,15 +1,22 @@
-import AppLayout from '@/layout/AppLayout.vue';
-import { AUTH_LOGIN } from '@/router/RouteName';
+import { AUTH_LOGIN, DASHBOARD } from "@/router/RouteName";
+import { preventIfLogIn, preventIfNotLogIn } from "@/router/guard/Authentication.guard";
 
 export const routes = [
     {
         path: '/',
-        component: AppLayout,
+        component: ()=>import('@/layout/AppLayout.vue'),
         children: [
             {
                 path: 'login',
                 name: AUTH_LOGIN,
+                beforeEnter:preventIfLogIn,
                 component: () => import('@/views/pages/auth/Login.vue')
+            },
+            {
+                path: 'dashboard',
+                name: DASHBOARD,
+                beforeEnter:preventIfNotLogIn,
+                component: () => import('@/layout/DashboardLayout.vue')
             }
         ]
     }

@@ -1,6 +1,7 @@
 <script setup>
-console.log('app layout')
+console.log('app layout');
 </script>
 <template>
-  <router-view></router-view>
+    <Toast />
+    <router-view></router-view>
 </template>

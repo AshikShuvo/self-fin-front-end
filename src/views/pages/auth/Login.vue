@@ -23,7 +23,7 @@
                             <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)">Create new account</a>
                             <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)">Forgot password?</a>
                         </div>
-                        <Button label="Sign In" class="w-full p-3 text-xl" @click="submitToLoginForm"></Button>
+                        <Button :loading="isLoading" label="Sign In" class="w-full p-3 text-xl" @click="submitToLoginForm"></Button>
                     </div>
                 </div>
             </div>
@@ -33,7 +33,9 @@
 <script setup>
 import * as Yup from 'yup';
 import { useField, useForm } from 'vee-validate';
+import useAuthService from '@/service/modules/Auth';
 
+const {isLoading, makeUserLogion } = useAuthService();
 const validationSchema = Yup.object({
     email: Yup.string().required('Email is required').email('must be a valid email'),
     password: Yup.string()
@@ -46,10 +48,10 @@ const validationSchema = Yup.object({
 const { handleSubmit, errors } = useForm({ validationSchema: validationSchema });
 const { value: email, validate: emailChange } = useField('email');
 const { value: password, validate: passwordChange } = useField('password');
+
 const submitToLoginForm = handleSubmit((values) => {
-    console.log(values);
+    makeUserLogion(values);
 });
-console.log(errors.value);
 </script>
 <style scoped>
 .pi-eye {
