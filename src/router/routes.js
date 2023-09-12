@@ -5,6 +5,7 @@ export const routes = [
     {
         path: '/',
         component: ()=>import('@/layout/AppLayout.vue'),
+        redirect:'/self_manage/dashboard',
         children: [
             {
                 path: 'login',
@@ -13,11 +14,19 @@ export const routes = [
                 component: () => import('@/views/pages/auth/Login.vue')
             },
             {
-                path: 'dashboard',
-                name: DASHBOARD,
+                path: 'self_manage',
                 beforeEnter:preventIfNotLogIn,
-                component: () => import('@/layout/DashboardLayout.vue')
-            }
+                component: () => import('@/layout/DashboardLayout.vue'),
+                children:[
+                    {
+                        path: 'dashboard',
+                        name: DASHBOARD,
+                        meta:{title:"Dashboard"},
+                        component: () => import('@/views/pages/fintech/Dashboard/index.vue')
+                    }
+                ]
+            },
+
         ]
     }
 ];
